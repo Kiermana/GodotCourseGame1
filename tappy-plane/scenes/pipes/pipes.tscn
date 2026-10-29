@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://qi3o5otw4cs5"]
+
+[ext_resource type="Script" uid="uid://chskp57f42xo7" path="res://scenes/pipes/pipes.gd" id="1_dq6nu"]
+[ext_resource type="PackedScene" uid="uid://b4r1eimt0vcba" path="res://scenes/laser/laser.tscn" id="1_ls657"]
+[ext_resource type="PackedScene" uid="uid://b88yhsolmki6j" path="res://scenes/pipe/pipe.tscn" id="2_dq6nu"]
+[ext_resource type="AudioStream" uid="uid://4g5wq03jaitt" path="res://assets/audio/score.wav" id="4_maa8c"]
+
+[node name="Pipes" type="Node2D" unique_id=555029761]
+script = ExtResource("1_dq6nu")
+
+[node name="Laser" parent="." unique_id=1573558859 instance=ExtResource("1_ls657")]
+
+[node name="Lower" parent="." unique_id=1820801584 instance=ExtResource("2_dq6nu")]
+position = Vector2(0, 70)
+
+[node name="Upper" parent="." unique_id=874977714 instance=ExtResource("2_dq6nu")]
+position = Vector2(0, -70)
+rotation = 3.1415927
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1027745594]
+position = Vector2(99, -2)
+
+[node name="Timer" type="Timer" parent="." unique_id=1291521872]
+one_shot = true
+autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1915414473]
+stream = ExtResource("4_maa8c")
+
+[connection signal="body_entered" from="Laser" to="." method="_on_laser_body_entered" flags=6]
+[connection signal="body_entered" from="Lower" to="." method="_on_pipe_body_entered"]
+[connection signal="body_entered" from="Upper" to="." method="_on_pipe_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_onscreen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

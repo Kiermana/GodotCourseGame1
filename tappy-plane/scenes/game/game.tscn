@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://5crko5fko6fx"]
+
+[ext_resource type="Script" uid="uid://bey0soqwovptt" path="res://scenes/game/game.gd" id="1_0sr1o"]
+[ext_resource type="Texture2D" uid="uid://nbddm5qdc53x" path="res://assets/background/Parallax0.png" id="1_sul5r"]
+[ext_resource type="PackedScene" uid="uid://b22egwmkn731q" path="res://scenes/tappy/tappy.tscn" id="2_7h61r"]
+[ext_resource type="PackedScene" uid="uid://qi3o5otw4cs5" path="res://scenes/pipes/pipes.tscn" id="3_0sr1o"]
+[ext_resource type="PackedScene" uid="uid://cdy277e3lvcdg" path="res://scenes/scrollingbackground/scrollingbg.tscn" id="3_5i0tg"]
+[ext_resource type="PackedScene" uid="uid://m5tmguub6m3" path="res://scenes/game_ui/game_ui.tscn" id="5_lfrn8"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7h61r"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0sr1o"]
+distance = 135.0
+
+[node name="Game" type="Node" unique_id=2022204181]
+script = ExtResource("1_0sr1o")
+pipes_scene = ExtResource("3_0sr1o")
+
+[node name="Scrollingbg" parent="." unique_id=1344177304 instance=ExtResource("3_5i0tg")]
+
+[node name="Parallax0" type="Sprite2D" parent="." unique_id=467487136]
+visible = false
+z_index = 1
+position = Vector2(412, 844)
+texture = ExtResource("1_sul5r")
+
+[node name="Tappy" parent="." unique_id=850327157 instance=ExtResource("2_7h61r")]
+position = Vector2(66, 477)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1868314186]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=552957454]
+position = Vector2(236.5, 1)
+shape = SubResource("WorldBoundaryShape2D_7h61r")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1079965726]
+position = Vector2(236, 806)
+shape = SubResource("WorldBoundaryShape2D_0sr1o")
+
+[node name="UpperSpawn" type="Marker2D" parent="." unique_id=135297873]
+position = Vector2(580, 194)
+
+[node name="LowerSpawn" type="Marker2D" parent="." unique_id=804081873]
+position = Vector2(580, 490)
+
+[node name="Timer" type="Timer" parent="." unique_id=1644307462]
+wait_time = 0.8
+autostart = true
+
+[node name="PipesHolder" type="Node" parent="." unique_id=1498771102]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=135092302]
+
+[node name="GameUi" parent="CanvasLayer" unique_id=1661166888 instance=ExtResource("5_lfrn8")]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
